@@ -112,7 +112,7 @@ const images = () => {
 
     // .pipe(
     //   tinypng({
-    //     key: 'Tyfvd06vy8HYhSff3mDT95zmGDk44M4s',
+    //     key: '',
     //     sigFile: 'images/.tinypng-sigs',
     //     log: true
     //   })
