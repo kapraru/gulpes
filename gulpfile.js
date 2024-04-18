@@ -25,7 +25,7 @@ import nested from 'postcss-nested';
 import pimport from 'postcss-import';
 
 const {src, dest, series, parallel} = gulp;
-const dist = 'dist';
+const dist = '../assets';
 
 // add link tags to head and footer
 const link = () => {
@@ -64,15 +64,23 @@ const styles = () => {
 
 // scripts
 const scripts = () => {
-  return src('src/scripts/**/*.js')
-    .pipe(sourcemaps.init())
+  return src(['src/scripts/**/*.js', '!src/scripts/libs/**/*.js'])
+    // .pipe(sourcemaps.init())
     .pipe(fileinclude())
     .pipe(babel({
       presets: ['@babel/preset-env']
     }))
     .pipe(terser())
-    .pipe(sourcemaps.write())
+    // .pipe(sourcemaps.write())
     .pipe(dest(`${dist}/scripts`))
+    .pipe(sync.stream());
+}
+
+// scripts libs
+const scriptsLibs = () => {
+  return src('src/scripts/libs/**/*.js')
+    .pipe(fileinclude())
+    .pipe(dest(`${dist}/scripts/libs`))
     .pipe(sync.stream());
 }
 
@@ -98,7 +106,7 @@ const images = () => {
         progressive: true
       })
     ])))
-    .pipe(dest('dist/images'))
+    .pipe(dest(`${dist}/images`))
 
     // convert png and jpg to webp
     .pipe(src('src/images/**/*'))
@@ -139,12 +147,13 @@ const watch = () => {
   gulp.watch('src/**/*.html', series(html));
   gulp.watch('src/styles/**/*.css', series(styles));
   gulp.watch('src/scripts/**/*.js', series(scripts));
+  gulp.watch('src/scripts/**/*.js', series(scriptsLibs));
   gulp.watch('src/images/**/*', series(images));
   gulp.watch('src/fonts/**/*', series(fonts));
   gulp.watch('src/media/**/*', series(media));
 };
 
-// server
+// // server
 const server = () => {
   sync.init({
     ui: false,
@@ -154,6 +163,14 @@ const server = () => {
     }
   });
 };
+
+// const server = () => {
+//   sync.init({
+//     ui: false,
+//     notify: false,
+//     proxy: 'http://buzunkin'
+//   });
+// };
 
 // clean
 const clean = () => {
@@ -169,6 +186,7 @@ export default series(
     html,
     styles,
     scripts,
+    scriptsLibs,
     images,
     fonts,
     media
