@@ -1,0 +1,29 @@
+@import url('../../../node_modules/hamburgers/dist/hamburgers.min.css');
+
+.hamburger {
+  display: none;
+  padding: 10px;
+  transform: translateX(-10px);
+  position: relative;
+  z-index: 2;
+  .hamburger-inner, .hamburger-inner:after, .hamburger-inner:before, .hamburger-box {
+    width: 30px;
+  }
+
+  &.is-active + .navigation-menu {
+    display: block;
+  }
+
+  @media(max-width: 1150px) {
+    order: 0;
+    display: block;
+  }
+}
+
+html.modal-locked {
+  .hamburger {
+    @media(max-width: 1150px) {
+      /* transform: translateX(-18px); */
+    }
+  }
+}

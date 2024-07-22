@@ -1,5 +1,4 @@
 import gulp from 'gulp';
-import htmlmin from 'gulp-htmlmin';
 import sync from 'browser-sync';
 import postcss from 'gulp-postcss';
 import fileinclude from 'gulp-file-include';
@@ -27,51 +26,44 @@ import pimport from 'postcss-import';
 const {src, dest, series, parallel} = gulp;
 const dist = '../assets';
 
-// add link tags to head and footer
-const link = () => {
-  const target = src('./src/templates/**/*.html');
-  const sources = src(['./src/scripts/**/*.js', './src/styles/**/*.css'], {read: false});
-  return target.pipe(inject(sources))
-    .pipe(inject(sources, {relative: true}))
-    .pipe(dest('./src/templates/'));
-};
-
-// html
-const html = () => {
-  return src('src/*.html')
-    .pipe(fileinclude())
-    .pipe(htmlmin({
-      removeComments: true,
-      collapseWhitespace: true
-    }))
-    .pipe(dest(`${dist}`))
-    .pipe(sync.stream());
-}
-
 // styles
 const styles = () => {
   const plugins = [
     pimport,
     nested,
     autoprefixer({cascade: true}),
-    cssnano,
+    cssnano({
+      preset: ['default', {
+        mergeLonghand: false,
+      }]
+    }),
   ];
-  return src(['src/styles/**/*.css', "!src/styles/**/_*.css"])
+  return src(['src/styles/**/*.css', "!src/styles/**/_*.css", "!src/styles/libs/**/*.css"])
     .pipe(postcss(plugins))
+    .pipe(rename({ suffix: '.min' }))
     .pipe(dest(`${dist}/styles`))
+    .pipe(sync.stream());
+}
+
+// styles libs
+const stylesLibs = () => {
+  return src('src/styles/libs/**/*.css')
+    .pipe(postcss([pimport]))
+    .pipe(dest(`${dist}/styles/libs`))
     .pipe(sync.stream());
 }
 
 // scripts
 const scripts = () => {
   return src(['src/scripts/**/*.js', '!src/scripts/libs/**/*.js'])
-    // .pipe(sourcemaps.init())
+    .pipe(sourcemaps.init())
     .pipe(fileinclude())
     .pipe(babel({
-      presets: ['@babel/preset-env']
-    }))
+        presets: ['@babel/preset-env']
+      }))
     .pipe(terser())
-    // .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write())
+    .pipe(rename({ suffix: '.min' }))
     .pipe(dest(`${dist}/scripts`))
     .pipe(sync.stream());
 }
@@ -144,10 +136,8 @@ const media = () => {
 
 // watch
 const watch = () => {
-  gulp.watch('src/**/*.html', series(html));
   gulp.watch('src/styles/**/*.css', series(styles));
   gulp.watch('src/scripts/**/*.js', series(scripts));
-  gulp.watch('src/scripts/**/*.js', series(scriptsLibs));
   gulp.watch('src/images/**/*', series(images));
   gulp.watch('src/fonts/**/*', series(fonts));
   gulp.watch('src/media/**/*', series(media));
@@ -164,14 +154,6 @@ const server = () => {
   });
 };
 
-// const server = () => {
-//   sync.init({
-//     ui: false,
-//     notify: false,
-//     proxy: 'http://buzunkin'
-//   });
-// };
-
 // clean
 const clean = () => {
   return del(`./${dist}/`, {
@@ -183,10 +165,10 @@ const clean = () => {
 export default series(
   clean,
   parallel(
-    html,
     styles,
     scripts,
     scriptsLibs,
+    stylesLibs,
     images,
     fonts,
     media

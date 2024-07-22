@@ -1,0 +1,3 @@
+.wp-block-button .wp-block-button__link:where(.is-style-hand-drawn):not(.has-background), .wp-block-button:where(.is-style-hand-drawn)>.wp-block-button__link:not(.has-background) {
+  background-color: red;
+}

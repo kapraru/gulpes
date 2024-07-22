@@ -1,0 +1,1 @@
+@@include('../../../node_modules/@fancyapps/ui/dist/carousel/carousel.umd.js');

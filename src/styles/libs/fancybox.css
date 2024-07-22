@@ -1,0 +1,28 @@
+@import url('../../../node_modules/@fancyapps/ui/dist/fancybox/fancybox.css');
+
+.fancybox {
+  &__content {
+    border-radius: 10px;
+  }
+
+  &__toolbar {
+    button[data-fancybox-toggle-slideshow] {
+      display: none;
+    }
+    button[data-panzoom-action] {
+      display: none;
+    }
+    button[data-fancybox-toggle-fullscreen] {
+      display: none;
+    }
+    button[data-fancybox-toggle-thumbs] {
+      display: none;
+    }
+  }
+}
+
+.fancybox__container .fancybox__backdrop {
+  background-color: rgba(100,100,100,0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
