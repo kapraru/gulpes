@@ -4,69 +4,6 @@
 /* Layout */
 html {
   scroll-behavior: smooth;
-
-  &:not(.with-fancybox) {
-    scrollbar-gutter: stable;
-  }
-}
-
-#page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
-}
-
-.main {
-  flex-grow: 1;
-}
-
-body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
-  max-width: var(--wp--style--global--content-size);
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-/* Button for edit template part */
-.template-part-container {
-  position: relative;
-
-  &__edit-link {
-    z-index: 99;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-
-    width: 40px;
-    height: 40px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin: 0;
-    padding: 5px 10px;
-
-    opacity: 0;
-    background-color: #fff;
-
-    border-radius: 10px;
-    border: 1px solid #eee;
-
-    text-decoration: none;
-    text-align: right;
-
-    transition: opacity .1s ease, background-color .1s ease;
-
-    &:hover {
-      background-color: #f1f1f1;
-    }
-  }
-
-  &:hover {
-    .template-part-container__edit-link {
-      opacity: 1!important;
-    }
-  }
 }
 
 /* Visually hidden */
@@ -82,16 +19,4 @@ body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alig
   position: absolute !important;
   width: 1px;
   word-wrap: normal !important;
-}
-
-/* Lightbox overlay backdrop */
-.wp-lightbox-overlay {
-  .scrim {
-    background-color: rgba(100,100,100,0.5)!important;
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-  }
-  .close-button {
-    fill: #fff!important;
-  }
 }
