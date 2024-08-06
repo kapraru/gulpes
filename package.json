@@ -38,6 +38,7 @@
     "imagemin-webp": "^8.0.0",
     "normalize.css": "^8.0.1",
     "postcss-import": "^16.1.0",
-    "postcss-nested": "^6.2.0"
+    "postcss-nested": "^6.2.0",
+    "postcss-simple-vars": "^7.0.1"
   }
 }

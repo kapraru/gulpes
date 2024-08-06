@@ -22,6 +22,7 @@ import cssnano from 'cssnano';
 import autoprefixer from 'autoprefixer';
 import nested from 'postcss-nested';
 import pimport from 'postcss-import';
+import postcssVars from 'postcss-simple-vars';
 
 const {src, dest, series, parallel} = gulp;
 const dist = '../assets';
@@ -30,6 +31,7 @@ const TEST = 'test';
 const styles = () => {
   const plugins = [
     pimport,
+    postcssVars,
     nested,
     autoprefixer({cascade: true}),
     cssnano({
