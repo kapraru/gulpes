@@ -145,11 +145,12 @@ const watch = () => {
   gulp.watch('src/media/**/*', series(media));
 };
 
-// // server
+// server
 const server = () => {
   sync.init({
     ui: false,
     notify: false,
+    // proxy: 'http://example.local/',
     server: {
       baseDir: `${dist}`
     }
