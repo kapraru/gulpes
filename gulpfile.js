@@ -124,7 +124,7 @@ const images = () => {
 
 // fonts
 const fonts = () => {
-  return src('src/fonts/**/*')
+  return src('src/fonts/**/*', { encoding: false })
     .pipe(dest(`${dist}/fonts`))
     .pipe(sync.stream());
 }
