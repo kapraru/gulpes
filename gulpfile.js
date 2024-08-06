@@ -22,6 +22,7 @@ import cssnano from 'cssnano';
 import autoprefixer from 'autoprefixer';
 import nested from 'postcss-nested';
 import pimport from 'postcss-import';
+import postcssVars from 'postcss-simple-vars';
 
 const {src, dest, series, parallel} = gulp;
 const dist = '../assets';
@@ -30,6 +31,7 @@ const dist = '../assets';
 const styles = () => {
   const plugins = [
     pimport,
+    postcssVars,
     nested,
     autoprefixer({cascade: true}),
     cssnano({
@@ -122,7 +124,7 @@ const images = () => {
 
 // fonts
 const fonts = () => {
-  return src('src/fonts/**/*')
+  return src('src/fonts/**/*', { encoding: false })
     .pipe(dest(`${dist}/fonts`))
     .pipe(sync.stream());
 }
@@ -143,11 +145,12 @@ const watch = () => {
   gulp.watch('src/media/**/*', series(media));
 };
 
-// // server
+// server
 const server = () => {
   sync.init({
     ui: false,
     notify: false,
+    proxy: 'http://example.local/',
     server: {
       baseDir: `${dist}`
     }
