@@ -150,7 +150,7 @@ const server = () => {
   sync.init({
     ui: false,
     notify: false,
-    proxy: 'http://example.local/',
+    // proxy: 'http://example.local/',
     server: {
       baseDir: `${dist}`
     }
