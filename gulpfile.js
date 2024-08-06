@@ -25,7 +25,7 @@ import pimport from 'postcss-import';
 
 const {src, dest, series, parallel} = gulp;
 const dist = '../assets';
-
+const TEST = 'test';
 // styles
 const styles = () => {
   const plugins = [
